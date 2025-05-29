@@ -1,0 +1,64 @@
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+  }
+  
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    padding: 0 20px;
+    background-color: #e6f2ff; /* Light Blue background */
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    color: #007acc;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  .hero button {
+    padding: 15px 30px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .hero button:hover {
+    background-color: #005f99;
+  }
+  
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .hero p {
+      font-size: 1rem;
+    }
+}
+.auth-icon {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto 1.5rem;
+  background-image: url('/images/kleardoc-logo7.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
