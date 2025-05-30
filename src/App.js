@@ -7,12 +7,14 @@ import Login from "./auth/Login";
 import VerificationStatus from "./pages/VerificationStatus";
 import TokenResult from "./pages/TokenResult";
 import IdentityChallengePage from "./features/identityChallenge/IdentityChallengePage";
+import LandingPage from "./pages/LandingPage"; // Import LandingPage
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />{" "}
+        {/* Landing Page as root */}
         <Route path="/verify" element={<VerificationPage />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/signup" element={<Signup />} />

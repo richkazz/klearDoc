@@ -1,0 +1,425 @@
+/* src/LandingPage.css */
+:root {
+  --kleardoc-primary: #007bff; /* Blue */
+  --kleardoc-secondary: #ffffff; /* White */
+  --kleardoc-accent: #0056b3; /* Darker Blue */
+  --kleardoc-light-blue: #e7f3ff; /* Light blue for backgrounds */
+  --kleardoc-text-dark: #212529;
+  --kleardoc-text-light: #495057;
+  --kleardoc-text-on-primary: #ffffff;
+  --kleardoc-light-gray: #f8f9fa;
+  --kleardoc-border-color: #dee2e6;
+  --kleardoc-section-padding: 60px 0;
+  --kleardoc-container-width: 1140px;
+  --kleardoc-card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+body.landing-page-body { /* Add this class to body when LandingPage mounts */
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--kleardoc-text-dark);
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.lp-container {
+  width: 90%;
+  max-width: var(--kleardoc-container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.lp-section {
+  padding: var(--kleardoc-section-padding);
+}
+
+.lp-section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--kleardoc-primary);
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.lp-section-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--kleardoc-text-light);
+  margin-bottom: 50px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lp-button {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50px; /* Pill shape */
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.lp-button-primary {
+  background-color: var(--kleardoc-primary);
+  color: var(--kleardoc-text-on-primary);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+.lp-button-primary:hover {
+  background-color: var(--kleardoc-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 90, 179, 0.4);
+}
+
+.lp-button-secondary {
+  background-color: transparent;
+  color: var(--kleardoc-primary);
+  border: 2px solid var(--kleardoc-primary);
+}
+.lp-button-secondary:hover {
+  background-color: var(--kleardoc-primary);
+  color: var(--kleardoc-text-on-primary);
+  transform: translateY(-2px);
+}
+
+/* Navbar */
+.lp-navbar {
+  background-color: var(--kleardoc-secondary);
+  padding: 15px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.lp-navbar.scrolled {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.lp-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lp-logo img {
+  height: 40px; /* Adjust as needed */
+}
+
+.lp-nav-links a {
+  color: var(--kleardoc-text-dark);
+  text-decoration: none;
+  margin-left: 25px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.lp-nav-links a:hover, .lp-nav-links a.active {
+  color: var(--kleardoc-primary);
+}
+.lp-nav-links .lp-button { /* For Get Started button in nav */
+    margin-left: 25px;
+    padding: 8px 20px;
+}
+
+
+/* Hero Section */
+.lp-hero-section {
+  background-color: var(--kleardoc-light-blue);
+  /* background-image: linear-gradient(to bottom right, var(--kleardoc-light-blue), var(--kleardoc-secondary)); */
+  padding: 160px 0 100px; /* Extra top padding for fixed navbar */
+  text-align: center;
+  overflow: hidden; /* For potential animations or shapes */
+  position: relative;
+}
+.lp-hero-content {
+    position: relative;
+    z-index: 1;
+}
+.lp-hero-section h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--kleardoc-primary);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+.lp-hero-section .lp-hero-subheadline {
+  font-size: 1.25rem;
+  color: var(--kleardoc-text-light);
+  margin-bottom: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lp-hero-actions .lp-button {
+  margin: 0 10px;
+}
+.lp-hero-image-container {
+    margin-top: 60px;
+    /* Placeholder for where you'd put a nice product mockup or illustration */
+}
+.lp-hero-image-container img {
+    max-width: 100%;
+    height: auto;
+    max-height: 450px; /* Control max height */
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Problem/Solution Section */
+.lp-problemsolution-section {
+    background-color: var(--kleardoc-secondary);
+}
+.lp-problemsolution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    align-items: center;
+}
+.lp-problemsolution-content h3 {
+    font-size: 1.8rem;
+    color: var(--kleardoc-accent);
+    margin-bottom: 15px;
+}
+.lp-problemsolution-content p {
+    font-size: 1rem;
+    color: var(--kleardoc-text-light);
+    margin-bottom: 20px;
+}
+.lp-problemsolution-image img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: var(--kleardoc-card-shadow);
+}
+
+
+/* Features Section */
+.lp-features-section {
+  background-color: var(--kleardoc-light-gray);
+}
+.lp-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+.lp-feature-card {
+  background-color: var(--kleardoc-secondary);
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: var(--kleardoc-card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.lp-feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.lp-feature-icon {
+  background-color: var(--kleardoc-light-blue);
+  color: var(--kleardoc-primary);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.lp-feature-icon .lucide { /* Lucide icons are typically 24x24 */
+    width: 32px;
+    height: 32px;
+}
+.lp-feature-card h3 {
+  font-size: 1.5rem;
+  color: var(--kleardoc-accent);
+  margin-bottom: 10px;
+}
+.lp-feature-card p {
+  font-size: 0.95rem;
+  color: var(--kleardoc-text-light);
+}
+
+/* How It Works Section */
+.lp-howitworks-section {
+    background-color: var(--kleardoc-secondary);
+}
+.lp-howitworks-steps {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+.lp-howitworks-step {
+    flex: 1;
+    min-width: 220px; /* Min width for steps */
+    max-width: 280px; /* Max width for steps */
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+.lp-howitworks-step-number {
+    background-color: var(--kleardoc-primary);
+    color: var(--kleardoc-text-on-primary);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,123,255,0.3);
+}
+.lp-howitworks-step h4 {
+    font-size: 1.2rem;
+    color: var(--kleardoc-accent);
+    margin-bottom: 10px;
+}
+.lp-howitworks-step p {
+    font-size: 0.9rem;
+    color: var(--kleardoc-text-light);
+}
+/* Arrow for larger screens - simplified */
+.lp-howitworks-step:not(:last-child)::after {
+    content: '';
+    /* For a more complex arrow, use SVG or an ::after element with borders */
+    /* This is a simplified line for demonstration */
+    /* content: '→';
+    position: absolute;
+    right: -25px; This needs careful adjustment based on layout
+    top: 25px;
+    font-size: 2rem;
+    color: var(--kleardoc-primary); */
+}
+
+
+/* Use Cases Section */
+.lp-usecases-section {
+    background-color: var(--kleardoc-light-blue);
+}
+.lp-usecases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+.lp-usecase-item {
+    background: var(--kleardoc-secondary);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+.lp-usecase-item .lucide {
+    color: var(--kleardoc-primary);
+    margin-bottom: 15px;
+}
+.lp-usecase-item h4 {
+    font-size: 1.2rem;
+    color: var(--kleardoc-accent);
+    margin-bottom: 8px;
+}
+.lp-usecase-item p {
+    font-size: 0.9rem;
+    color: var(--kleardoc-text-light);
+}
+
+
+/* Footer */
+.lp-footer {
+  background-color: var(--kleardoc-text-dark);
+  color: var(--kleardoc-light-gray);
+  padding: 40px 0;
+  text-align: center;
+}
+.lp-footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.lp-footer-logo img {
+    height: 45px; /* Adjust as needed */
+    filter: brightness(0) invert(1); /* Make logo white if it's dark */
+}
+.lp-footer-links a {
+  color: var(--kleardoc-light-gray);
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.2s ease;
+}
+.lp-footer-links a:hover {
+  color: var(--kleardoc-primary);
+}
+.lp-footer-social a {
+    margin: 0 8px;
+    color: var(--kleardoc-light-gray);
+    transition: color 0.2s ease;
+}
+.lp-footer-social a:hover {
+    color: var(--kleardoc-primary);
+}
+.lp-footer-copyright {
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+    .lp-hero-section h1 {
+        font-size: 2.8rem;
+    }
+    .lp-hero-section .lp-hero-subheadline {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .lp-section-title {
+        font-size: 2rem;
+    }
+    .lp-hero-section h1 {
+        font-size: 2.2rem;
+    }
+    .lp-nav-links {
+        /* Basic mobile menu idea - implement with JS for toggle */
+        /* display: none; */
+        /* position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: var(--kleardoc-secondary);
+        flex-direction: column;
+        padding: 10px 0; */
+    }
+    .lp-nav-links a {
+        /* margin: 10px 0;
+        text-align: center; */
+    }
+    .lp-hero-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    .lp-hero-actions .lp-button {
+        width: 80%;
+        max-width: 300px;
+    }
+    .lp-howitworks-steps {
+        flex-direction: column;
+        align-items: center;
+    }
+    .lp-howitworks-step:not(:last-child)::after {
+        content: ''; /* Remove arrow on mobile stack */
+    }
+}
