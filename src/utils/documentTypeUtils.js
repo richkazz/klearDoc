@@ -54,6 +54,7 @@ export function requiresImage(documentTypeKeyOrValue) {
     case DocumentVerificationType.DriverLicense:
     case DocumentVerificationType.Passport:
     case DocumentVerificationType.NinSlip:
+    case DocumentVerificationType.NinCard:
     case DocumentVerificationType.VotersCard:
     case DocumentVerificationType.StudentIdCard:
       // case DocumentVerificationType.CertificateOfOrigin: // Assuming these might not always need a live photo
