@@ -33,3 +33,31 @@ export const verifyDocument = async ({
 
   return fetchWithFormData(API_ENDPOINT, formData);
 };
+
+// ... (existing verifyDocument function) ...
+
+const VERIFY_KDID_ENDPOINT = "/api/DocumentVerification/verify-kdid-with-face";
+
+/**
+ * Verifies a KDID by matching it with a provided live face picture.
+ * @param {object} data
+ * @param {File} data.userImageFile - The user's live face picture.
+ * @param {string} data.kdid - The KDID to verify.
+ * @returns {Promise<any>} The API response. (Assuming it might return a boolean or a simple status object)
+ */
+export const verifyKdidWithFace = async ({ userImageFile, kdid }) => {
+  const formData = new FormData();
+  // The backend expects the file as the first item in request.Files
+  // and the name doesn't strictly matter for request.Files[0] but good practice to set it.
+  formData.append("faceImage", userImageFile, userImageFile.name); // "faceImage" is an arbitrary key for FormData
+  formData.append("KDID", kdid);
+
+  // For debugging FormData content:
+  // for (let [key, value] of formData.entries()) {
+  //   console.log(`${key}:`, value);
+  // }
+
+  // Assuming the response might be simpler, e.g., boolean or { success: true, message: "..." }
+  // The fetchWithFormData might need adjustment if the response is not JSON (e.g., plain text "true")
+  return fetchWithFormData(VERIFY_KDID_ENDPOINT, formData);
+};

@@ -10,6 +10,11 @@ import { getDocumentTypeString } from "../../utils/documentTypeUtils"; // For AP
 import "./VerificationPage.css"; // Main styles
 import { ShieldAlert } from "lucide-react"; // For error icon
 
+import {
+  RequiredActionType,
+  RequiredActionTypeUserMessages,
+} from "../../utils/verificationResultUtils"; // New Import
+
 const STEPS = {
   SELECT_TYPE: 1,
   UPLOAD_FORM: 2,
@@ -18,12 +23,11 @@ const STEPS = {
 
 const VerificationPage = () => {
   const [currentStep, setCurrentStep] = useState(STEPS.SELECT_TYPE);
-  const [selectedDocType, setSelectedDocType] = useState(null); // Stores the full docType object
-  const [verificationResult, setVerificationResult] = useState(null);
+  const [selectedDocType, setSelectedDocType] = useState(null);
+  const [verificationResult, setVerificationResult] = useState(null); // This will hold the new structured data
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); // For client-side/network errors
 
-  // Effect to scroll to top when step changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentStep]);
@@ -31,8 +35,8 @@ const VerificationPage = () => {
   const handleSelectDocumentType = (docType) => {
     setSelectedDocType(docType);
     setCurrentStep(STEPS.UPLOAD_FORM);
-    setError(null); // Clear previous errors
-    setVerificationResult(null); // Clear previous results
+    setError(null);
+    setVerificationResult(null);
   };
 
   const handleUploadSubmit = async (formData) => {
@@ -44,71 +48,67 @@ const VerificationPage = () => {
       const apiPayload = {
         documentFile: formData.documentFile,
         userImageFile: formData.userImageFile,
-        documentTypeString: getDocumentTypeString(selectedDocType.value), // API needs string like "NinSlip"
+        documentTypeString: getDocumentTypeString(selectedDocType.value),
         kdid: formData.kdid,
       };
-      const result = await verifyDocument(apiPayload);
+      const apiResponse = await verifyDocument(apiPayload); // apiResponse is DocumentVerificationResult
 
-      // Adapt this based on your ACTUAL API response structure
-      // This is a common pattern:
-      if (
-        result &&
-        (result.success === true ||
-          result.status === "success" ||
-          (result.extractedInfo &&
-            Object.keys(result.extractedInfo).length > 0))
-      ) {
-        setVerificationResult({
-          // Assuming result has 'extractedInfo', 'token', 'success', 'message'
-          extractedInfo: result.extractedInfo || result.data || {},
-          token: result.token || result.verificationToken || null,
-          success: true, // Or derive from API response
-          message: result.message || "Verification processed.",
-        });
-      } else if (
-        result &&
-        (result.success === false || result.status === "failed")
-      ) {
-        setVerificationResult({
-          extractedInfo: result.extractedInfo || {},
-          token: null,
-          success: false,
-          message:
-            result.message ||
-            "Verification could not be completed successfully.",
-        });
-      } else {
-        // If the API returns text or an unexpected JSON structure for success
-        // For example, if it returns just the token string on success:
-        if (typeof result === "string" && result.startsWith("klr-")) {
-          setVerificationResult({
-            extractedInfo: {}, // No extracted info in this hypothetical case
-            token: result,
-            success: true,
-            message: "Verification successful!",
-          });
-        } else if (typeof result === "object" && result !== null) {
-          // Some other object
-          setVerificationResult({
-            extractedInfo: result.data || result, // Try to find data
-            token: result.token || null,
-            success: Object.keys(result).length > 0, // Tentative success
-            message:
-              result.message || "Verification processed with partial data.",
-          });
-        } else {
-          console.warn("Unexpected API response structure:", result);
-          setError({
-            message: "Received an unexpected response from the server.",
-          });
-        }
+      if (!apiResponse || typeof apiResponse !== "object") {
+        console.error("Unexpected API response:", apiResponse);
+        setError({ message: "Received an invalid response from the server." });
+        setCurrentStep(STEPS.SHOW_RESULT);
+        return;
       }
+
+      // Construct the frontend verificationResult state
+      const actionReq =
+        apiResponse.documentWorkflowDecision?.actionRequired ||
+        RequiredActionType.None;
+      const extractedData = apiResponse.extractedData || null;
+      // Attempt to find a token (speculative based on common naming)
+      const token =
+        extractedData?.verificationToken ||
+        extractedData?.token ||
+        extractedData?.KlearDocToken ||
+        apiResponse.token ||
+        null;
+
+      const resultForFrontend = {
+        isVerified: apiResponse.isVerified || false,
+        apiUserMessage: apiResponse.documentWorkflowDecision?.userMessage || "",
+        actionRequired: actionReq,
+        actionRequiredUserMessage:
+          RequiredActionTypeUserMessages[actionReq] || "",
+        extractedData: extractedData,
+        facialImageComparison: apiResponse.facialImageComparison
+          ? {
+              isMatch: apiResponse.facialImageComparison.isMatch,
+              // API ConfidenceScore is 0.0-1.0, convert to percentage for display
+              confidenceScore:
+                apiResponse.facialImageComparison.confidenceScore !==
+                  undefined &&
+                apiResponse.facialImageComparison.confidenceScore !== null
+                  ? (
+                      apiResponse.facialImageComparison.confidenceScore * 100
+                    ).toFixed(1)
+                  : null,
+              remarks: apiResponse.facialImageComparison.remarks || null,
+            }
+          : null,
+        apiSystemErrorMessage: apiResponse.errorMessage || null,
+        token: token, // Store the found token
+      };
+
+      setVerificationResult(resultForFrontend);
       setCurrentStep(STEPS.SHOW_RESULT);
     } catch (err) {
       console.error("Verification API error:", err);
+      // This 'err' is a client-side error (network, fetchWithFormData error, etc.)
       setError({
-        message: err.message || "Failed to verify document.",
+        message:
+          err.message || "Failed to connect to the verification service.",
         details: err.details, // if appClient provides it
+        status: err.status, // if appClient provides it
       });
       setCurrentStep(STEPS.SHOW_RESULT); // Still go to result step to show the error
     } finally {
@@ -120,9 +120,9 @@ const VerificationPage = () => {
     setError(null);
     if (currentStep === STEPS.UPLOAD_FORM) {
       setCurrentStep(STEPS.SELECT_TYPE);
-      setSelectedDocType(null); // Clear selection
+      setSelectedDocType(null);
     } else if (currentStep === STEPS.SHOW_RESULT) {
-      setCurrentStep(STEPS.UPLOAD_FORM); // Go back to form, keeps data
+      setCurrentStep(STEPS.UPLOAD_FORM);
     }
   };
 
@@ -135,8 +135,8 @@ const VerificationPage = () => {
   };
 
   const renderStepContent = () => {
+    // ... (isLoading logic remains the same) ...
     if (isLoading && currentStep !== STEPS.SHOW_RESULT) {
-      // Show full page loader if not on result page
       return <LoadingSpinner />;
     }
 
@@ -160,10 +160,11 @@ const VerificationPage = () => {
         return (
           <>
             {isLoading && <LoadingSpinner />}
+            {/* Pass the structured verificationResult and any client/network error */}
             {!isLoading && (
               <VerificationResultDisplay
                 resultData={verificationResult}
-                error={error}
+                clientError={error}
                 onReset={handleReset}
               />
             )}
@@ -172,13 +173,6 @@ const VerificationPage = () => {
       default:
         return <p>Unknown step.</p>;
     }
-  };
-
-  const getStepName = (step) => {
-    if (step === STEPS.SELECT_TYPE) return "Select Document";
-    if (step === STEPS.UPLOAD_FORM) return "Upload Details";
-    if (step === STEPS.SHOW_RESULT) return "View Result";
-    return "";
   };
 
   return (
@@ -207,23 +201,23 @@ const VerificationPage = () => {
         </div>
       </div>
 
-      {error &&
-        currentStep !== STEPS.SHOW_RESULT && ( // Global error display if not handled by result page
-          <div className="general-error-message">
-            <ShieldAlert
-              size={24}
-              style={{ marginRight: "10px", verticalAlign: "middle" }}
-            />
-            <p>
-              <strong>Error:</strong> {error.message}
-            </p>
-            {error.details && (
-              <pre style={{ fontSize: "0.8em", textAlign: "left" }}>
-                {JSON.stringify(error.details, null, 2)}
-              </pre>
-            )}
-          </div>
-        )}
+      {/* Display client/network errors that occur before result page */}
+      {error && currentStep !== STEPS.SHOW_RESULT && (
+        <div className="general-error-message">
+          <ShieldAlert
+            size={24}
+            style={{ marginRight: "10px", verticalAlign: "middle" }}
+          />
+          <p>
+            <strong>Error:</strong> {error.message}
+          </p>
+          {error.details && (
+            <pre style={{ fontSize: "0.8em", textAlign: "left" }}>
+              {JSON.stringify(error.details, null, 2)}
+            </pre>
+          )}
+        </div>
+      )}
 
       {renderStepContent()}
     </div>

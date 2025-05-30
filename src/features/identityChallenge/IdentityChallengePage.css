@@ -1,0 +1,189 @@
+/* src/features/identityChallenge/IdentityChallengePage.css */
+.identity-challenge-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--light-gray, #f4f7f6);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.ic-page-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.ic-logo {
+  height: 50px; /* Adjust as needed */
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.ic-page-header h1 {
+  color: var(--primary-color, #007bff);
+  font-size: 2rem;
+  margin: 0;
+}
+
+.ic-content-card {
+  background-color: var(--secondary-color, #ffffff);
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow, 0 4px 8px rgba(0, 0, 0, 0.1));
+  width: 100%;
+  max-width: 550px;
+  text-align: center;
+}
+
+.ic-service-info {
+  font-size: 1.1rem;
+  color: var(--text-color, #333);
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+.ic-service-info strong {
+  color: var(--primary-color, #007bff);
+}
+
+.ic-instructions {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.ic-kdid-display {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 25px;
+    padding: 8px;
+    border: 1px dashed var(--border-color, #dee2e6);
+    border-radius: 4px;
+}
+
+.ic-camera-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ic-video-feed {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 6px;
+  border: 2px solid var(--border-color, #dee2e6);
+  margin-bottom: 15px;
+  background-color: #000; /* Fallback if camera feed is slow */
+}
+
+.ic-image-preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ic-image-preview {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 6px;
+  border: 2px solid var(--primary-color, #007bff);
+  margin-bottom: 15px;
+}
+
+.ic-preview-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.ic-button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 150px; /* Ensure buttons have a decent width */
+}
+.ic-start-camera-button {
+    width: 100%; /* Make initial button full width */
+    max-width: 300px;
+    margin: 20px auto 0;
+}
+.ic-capture-button {
+    margin-bottom: 10px;
+}
+
+
+.ic-status-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+.ic-status-message p {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.ic-api-message {
+    font-size: 0.9em;
+    color: #444;
+}
+
+.ic-success {
+  background-color: #d4edda; /* Light green */
+  color: #155724; /* Dark green */
+  border: 1px solid #c3e6cb;
+}
+.ic-success .lucide {
+  color: var(--success-color, #28a745);
+}
+
+.ic-failure {
+  background-color: #f8d7da; /* Light red */
+  color: #721c24; /* Dark red */
+  border: 1px solid #f5c6cb;
+}
+.ic-failure .lucide {
+  color: var(--error-color, #dc3545);
+}
+.ic-failure .ic-button { /* Give try again button space */
+    margin-top: 15px;
+}
+
+
+.ic-error-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff3cd; /* Light yellow */
+  color: #856404; /* Dark yellow */
+  border: 1px solid #ffeeba;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.ic-error-message p {
+  margin: 0;
+}
+
+.ic-footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #6c757d;
+}

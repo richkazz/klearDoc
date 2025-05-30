@@ -6,6 +6,7 @@ import Signup from "./auth/Signup";
 import Login from "./auth/Login";
 import VerificationStatus from "./pages/VerificationStatus";
 import TokenResult from "./pages/TokenResult";
+import IdentityChallengePage from "./features/identityChallenge/IdentityChallengePage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/status" element={<VerificationStatus />} />
         <Route path="/token" element={<TokenResult />} />
+        <Route path="/challenge/:kdid" element={<IdentityChallengePage />} />
       </Routes>
     </Router>
   );

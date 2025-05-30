@@ -260,3 +260,52 @@ body {
 .general-error-message p {
     margin: 0;
 }
+
+.info-item.full-width-item {
+  grid-column: 1 / -1; /* Span full width */
+}
+
+.info-item.code-block pre,
+.info-item.code-block {
+  white-space: pre-wrap;
+  word-break: break-all;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.action-required-info {
+  border-left: 5px solid var(--primary-color);
+  background-color: #e7f3ff; /* Light blue */
+  padding: 15px;
+  margin-bottom: 20px;
+}
+.action-required-error {
+  border-left: 5px solid var(--error-color);
+  background-color: #f8d7da; /* Light red from error-box */
+  padding: 15px;
+  margin-bottom: 20px;
+}
+.action-required-info h4, .action-required-error h4 {
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+.token-display input {
+    width: auto; /* Let flexbox handle it */
+    flex-grow: 1;
+}
+
+/* Ensure info-box is generic enough for action required messages too */
+.info-box {
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  background-color: var(--secondary-color);
+}
+.info-box h4 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
